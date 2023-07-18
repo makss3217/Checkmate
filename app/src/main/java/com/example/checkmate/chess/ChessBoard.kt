@@ -8,4 +8,8 @@ class ChessBoard(private val board: Array<Array<ChessPiece?>>) {
         return board[checkedPosition.row][checkedPosition.column]
     }
 
+    fun setFigureOnPosition(position: BoardPosition, figure: ChessPiece?) {
+        board[position.row][position.column] = figure;
+    }
+
 }

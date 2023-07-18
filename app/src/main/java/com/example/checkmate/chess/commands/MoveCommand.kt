@@ -9,10 +9,14 @@ data class MoveCommand(
 ) : ChessCommand {
 
     override fun execute(board: ChessBoard) {
-        TODO("Not yet implemented")
+        var figure = board.getFigureOnPosition(source)
+        board.setFigureOnPosition(destination, figure)
+        board.setFigureOnPosition(source, null)
     }
 
     override fun undo(board: ChessBoard) {
-        TODO("Not yet implemented")
+        var figure = board.getFigureOnPosition(destination)
+        board.setFigureOnPosition(destination, null)
+        board.setFigureOnPosition(source, figure)
     }
 }
