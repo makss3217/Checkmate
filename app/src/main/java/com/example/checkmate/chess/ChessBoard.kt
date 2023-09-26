@@ -9,7 +9,15 @@ class ChessBoard(private val board: Array<Array<ChessPiece?>>) {
     }
 
     fun setFigureOnPosition(position: BoardPosition, figure: ChessPiece?) {
-        board[position.row][position.column] = figure;
+        board[position.row][position.column] = figure
+    }
+
+    fun getPositionsWithFigureInColor(color: ChessColor) : Set<BoardPosition> {
+        return BoardPosition.values()
+            .filter { p -> (getFigureOnPosition(p)?.color ?: false) == color }
+            .toSet()
+
+
     }
 
 }

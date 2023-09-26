@@ -11,6 +11,20 @@ class ChessGame(private var board : ChessBoard) {
     private var currentMove = ChessColor.WHITE
     private var commandHistory : Stack<ChessCommand> = Stack()
 
+    fun isCheckMate(): Boolean {
+        return getAllAvailableMoves().isEmpty() && kingIsUnderAttack()
+    }
+
+    fun isPat() : Boolean {
+        return getAllAvailableMoves().isEmpty() && !opponentKingIsUnderAttack()
+    }
+
+    fun getAllAvailableMoves() : Set<ChessCommand> {
+        return board.getPositionsWithFigureInColor(currentMove)
+            .flatMap { position -> getAvailableMovesFromPosition(position) }
+            .toSet()
+    }
+
     fun getAvailableMovesFromPosition(position: BoardPosition) : Set<ChessCommand> {
         val commandsBeforeCheckFilter = getCommands(position)
         val availableCommands = mutableSetOf<ChessCommand>()
@@ -25,16 +39,27 @@ class ChessGame(private var board : ChessBoard) {
     private fun getCommands(position: BoardPosition) =
         getFigureOnPosition(position)?.getAvailableMoves(this, position) ?: mutableSetOf()
 
-    private fun afterCommandKingIsNotUnderAttack(command: ChessCommand): Boolean {
+    private fun afterCommandKingIsUnderAttack(command: ChessCommand): Boolean {
         executeCommand(command)
-        val captureCommands = getAllMoves().filterIsInstance<CaptureCommand>()
-        val kingIsNotUnderAttack =  captureCommands.none { c -> kingIsCapturedPiece(c) }
+        val kingIsUnderAttack = opponentKingIsUnderAttack()
         undoCommand()
-        return kingIsNotUnderAttack
+        return kingIsUnderAttack
     }
 
-    private fun kingIsCapturedPiece(command: CaptureCommand) : Boolean {
-        return command.getCapturedFigure() is King
+    private fun afterCommandKingIsNotUnderAttack(command: ChessCommand): Boolean {
+      return !afterCommandKingIsUnderAttack(command)
+    }
+
+    private fun kingIsUnderAttack() : Boolean {
+        changeColor()
+        val kingIsUnderAttack = opponentKingIsUnderAttack()
+        changeColor()
+        return kingIsUnderAttack
+    }
+
+    private fun opponentKingIsUnderAttack() : Boolean {
+      return getAllMoves().filterIsInstance<CaptureCommand>()
+           .any() { c -> c.getCapturedFigure() is King }
     }
 
     private fun getAllMoves(): Set<ChessCommand> {
@@ -49,13 +74,13 @@ class ChessGame(private var board : ChessBoard) {
     }
 
 
-    private fun executeCommand(command: ChessCommand) {
+    fun executeCommand(command: ChessCommand) {
         command.execute(this.board)
         commandHistory.push(command)
         changeColor()
     }
 
-    private fun undoCommand() {
+    fun undoCommand() {
         val command = commandHistory.pop()
         command.undo(board)
         changeColor()
@@ -69,7 +94,7 @@ class ChessGame(private var board : ChessBoard) {
         }
     }
 
-    fun getFigureOnPosition(position: BoardPosition) : ChessPiece? {
+   fun getFigureOnPosition(position: BoardPosition) : ChessPiece? {
         return board.getFigureOnPosition(position)
     }
 

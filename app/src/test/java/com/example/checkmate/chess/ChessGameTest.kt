@@ -20,4 +20,6 @@ class ChessGameTest {
 
         assertThat(availablePositions).containsOnly(MoveCommand(A1,A2))
     }
+
+
 }
