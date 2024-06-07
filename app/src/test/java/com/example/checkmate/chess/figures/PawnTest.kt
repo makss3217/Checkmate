@@ -6,6 +6,8 @@ import com.example.checkmate.chess.ChessColor.*
 import com.example.checkmate.chess.ChessGame
 import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.MoveCommand
+import com.example.checkmate.chess.commands.MoveCommandWrapper
+import com.example.checkmate.chess.commands.TransformCommand
 import org.junit.Test
 import org.assertj.core.api.Assertions.assertThat
 
@@ -68,5 +70,21 @@ class PawnTest {
             CaptureCommand(E2,D3, Pawn(BLACK)),
             MoveCommand(E2,E3),
             MoveCommand(E2,E4))
+    }
+
+    @Test
+    fun pawnTransformsOnFinishRow() {
+        val game = ChessGame(
+            ChessBoardBuilder()
+                .position(A7, Pawn(WHITE))
+                .build())
+
+        val availablePositions = game.getAvailableMovesFromPosition(A7)
+
+        assertThat(availablePositions).containsExactlyInAnyOrder(
+            MoveCommandWrapper(A7, A8, TransformCommand(A8, Pawn(WHITE), Queen(WHITE))),
+            MoveCommandWrapper(A7, A8, TransformCommand(A8, Pawn(WHITE), Knight(WHITE))),
+            MoveCommandWrapper(A7, A8, TransformCommand(A8, Pawn(WHITE), Bishop(WHITE))),
+            MoveCommandWrapper(A7, A8, TransformCommand(A8, Pawn(WHITE), Rock(WHITE))))
     }
 }

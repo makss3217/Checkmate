@@ -6,6 +6,8 @@ import com.example.checkmate.chess.ChessGame
 import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.ChessCommand
 import com.example.checkmate.chess.commands.MoveCommand
+import com.example.checkmate.chess.commands.MoveCommandWrapper
+import com.example.checkmate.chess.commands.TransformCommand
 
 data class Pawn(override val color: ChessColor) : ChessPiece {
 
@@ -139,17 +141,34 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
     }
 
     private fun nextFieldIsEmpty(game: ChessGame, currentPosition: BoardPosition): Boolean {
-        val aheadPosition = if (this.color == ChessColor.WHITE) {
+        val aheadPosition = getPawnAheadPosition(currentPosition)
+        return game.getFigureOnPosition(aheadPosition) == null
+    }
+
+    private fun getPawnAheadPosition(currentPosition: BoardPosition) : BoardPosition {
+        return if (this.color == ChessColor.WHITE) {
             BoardPosition.from(currentPosition.row + 1, currentPosition.column)
         } else {
             BoardPosition.from(currentPosition.row - 1, currentPosition.column)
         }
-        return game.getFigureOnPosition(aheadPosition) == null
     }
 
     private fun createTransformCommands(currentPosition: BoardPosition): Collection<ChessCommand> {
-        // TO DO
-        return setOf()
+        val aheadPosition = getPawnAheadPosition(currentPosition)
+        val commands = HashSet<ChessCommand>()
+        commands.add(
+            MoveCommandWrapper(currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Queen(this.color))))
+        commands.add(
+            MoveCommandWrapper(currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Knight(this.color))))
+        commands.add(
+            MoveCommandWrapper(currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Bishop(this.color))))
+        commands.add(
+            MoveCommandWrapper(currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Rock(this.color))))
+        return commands
     }
 
 }
