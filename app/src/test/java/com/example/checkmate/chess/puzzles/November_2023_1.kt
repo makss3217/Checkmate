@@ -1,14 +1,11 @@
 package com.example.checkmate.chess.puzzles
 
-import com.example.checkmate.chess.BoardPosition
 import com.example.checkmate.chess.CheckmateResolver
 import com.example.checkmate.chess.ChessBoardBuilder
-import com.example.checkmate.chess.ChessColor
 import com.example.checkmate.chess.ChessGame
 import com.example.checkmate.chess.commands.MoveCommand
 import com.example.checkmate.chess.figures.Bishop
 import com.example.checkmate.chess.figures.King
-import com.example.checkmate.chess.figures.Knight
 import com.example.checkmate.chess.figures.Pawn
 import com.example.checkmate.chess.figures.Rock
 import org.assertj.core.api.Assertions
@@ -18,6 +15,7 @@ import com.example.checkmate.chess.ChessColor.*
 
 
 class November_2023_1 {
+
 
     @Test
     fun resolve() {

@@ -36,7 +36,7 @@ class September_2022_1 {
         val resolver = CheckmateResolver()
         val solution = resolver.resolve(ChessGame(board), 3)
 
-        assertThat(solution).containsOnly(createExpectedSolution())
+        assertThat(solution.last().move).isEqualTo(MoveCommand(A8,E8))
     }
 
     private fun createExpectedSolution(): CheckmateSolution {

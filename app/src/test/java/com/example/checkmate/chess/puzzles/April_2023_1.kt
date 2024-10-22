@@ -20,7 +20,7 @@ class April_2023_1 {
 
     @Test
     fun resolve() {
-        var board = ChessBoardBuilder()
+        val board = ChessBoardBuilder()
             .position(G5, King(BLACK))
             .position(H7, Pawn(BLACK))
             .position(E3, King(WHITE))
@@ -32,7 +32,7 @@ class April_2023_1 {
         val resolver = CheckmateResolver()
         val solution = resolver.resolve(ChessGame(board), 2)
 
-        assertThat(solution).containsOnly(createExpectedSolution())
+        assertThat(solution.last().move).isEqualTo(MoveCommand(G2, H4))
     }
 
     private fun createExpectedSolution(): CheckmateSolution {

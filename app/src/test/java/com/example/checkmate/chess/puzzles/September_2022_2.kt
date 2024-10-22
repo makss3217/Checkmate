@@ -1,12 +1,9 @@
 package com.example.checkmate.chess.puzzles
 
-import androidx.compose.ui.graphics.BlurEffect
-import com.example.checkmate.chess.BoardPosition
+
 import com.example.checkmate.chess.CheckmateResolver
 import com.example.checkmate.chess.ChessBoardBuilder
-import com.example.checkmate.chess.ChessColor
 import com.example.checkmate.chess.ChessGame
-import com.example.checkmate.chess.figures.Bishop
 import com.example.checkmate.chess.figures.King
 import com.example.checkmate.chess.figures.Knight
 import com.example.checkmate.chess.figures.Pawn
@@ -16,7 +13,6 @@ import org.junit.Test
 import com.example.checkmate.chess.BoardPosition.*
 import com.example.checkmate.chess.CheckmateSolution
 import com.example.checkmate.chess.ChessColor.*
-import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.MoveCommand
 import com.example.checkmate.chess.figures.Queen
 
@@ -24,7 +20,7 @@ class September_2022_2 {
 
     @Test
     fun resolve() {
-        var board = ChessBoardBuilder()
+        val board = ChessBoardBuilder()
             .position(F6, King(WHITE))
             .position(G4, Pawn(WHITE))
             .position(F2, Knight(WHITE))

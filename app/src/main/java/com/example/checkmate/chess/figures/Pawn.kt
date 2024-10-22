@@ -71,13 +71,17 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
         destinationPosition: BoardPosition,
         game: ChessGame
     ): ChessCommand {
-        return CaptureCommand(currentPosition, destinationPosition, game.getFigureOnPosition(destinationPosition)!!)
+        return CaptureCommand(
+            currentPosition,
+            destinationPosition,
+            game.getFigureOnPosition(destinationPosition)!!
+        )
     }
 
     private fun isOppositeFigure(position: BoardPosition?, game: ChessGame): Boolean {
-        return if(position != null) {
-            val figure= game.getFigureOnPosition(position)
-            if(figure != null) {
+        return if (position != null) {
+            val figure = game.getFigureOnPosition(position)
+            if (figure != null) {
                 figure.color != this.color
             } else {
                 false
@@ -101,7 +105,7 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
 
     private fun getRightCornerPosition(currentPosition: BoardPosition): BoardPosition? {
         return try {
-            if(this.color == ChessColor.WHITE) {
+            if (this.color == ChessColor.WHITE) {
                 BoardPosition.from(currentPosition.row + 1, currentPosition.column + 1)
             } else {
                 BoardPosition.from(currentPosition.row - 1, currentPosition.column + 1)
@@ -113,10 +117,16 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
     }
 
     private fun createSecondAheadMoveCommand(currentPosition: BoardPosition): ChessCommand {
-        return if(this.color == ChessColor.WHITE) {
-            MoveCommand(currentPosition , BoardPosition.from(currentPosition.row + 2, currentPosition.column))
+        return if (this.color == ChessColor.WHITE) {
+            MoveCommand(
+                currentPosition,
+                BoardPosition.from(currentPosition.row + 2, currentPosition.column)
+            )
         } else {
-            MoveCommand(currentPosition , BoardPosition.from(currentPosition.row - 2, currentPosition.column))
+            MoveCommand(
+                currentPosition,
+                BoardPosition.from(currentPosition.row - 2, currentPosition.column)
+            )
         }
     }
 
@@ -130,15 +140,21 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
     }
 
     private fun createNextFieldMoveCommand(currentPosition: BoardPosition): ChessCommand {
-        return if(this.color == ChessColor.WHITE) {
-            MoveCommand(currentPosition , BoardPosition.from(currentPosition.row + 1, currentPosition.column))
+        return if (this.color == ChessColor.WHITE) {
+            MoveCommand(
+                currentPosition,
+                BoardPosition.from(currentPosition.row + 1, currentPosition.column)
+            )
         } else {
-            MoveCommand(currentPosition , BoardPosition.from(currentPosition.row - 1, currentPosition.column))
+            MoveCommand(
+                currentPosition,
+                BoardPosition.from(currentPosition.row - 1, currentPosition.column)
+            )
         }
     }
 
     private fun pawnStayOnStartedPositions(currentPosition: BoardPosition): Boolean {
-        return if(this.color == ChessColor.WHITE) {
+        return if (this.color == ChessColor.WHITE) {
             currentPosition.row == 1
         } else {
             currentPosition.row == 6
@@ -147,7 +163,7 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
 
 
     private fun nextFieldIsTransformRow(currentPosition: BoardPosition): Boolean {
-        return if(this.color == ChessColor.WHITE) {
+        return if (this.color == ChessColor.WHITE) {
             currentPosition.row == 6
         } else {
             currentPosition.row == 1
@@ -159,7 +175,7 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
         return game.getFigureOnPosition(aheadPosition) == null
     }
 
-    private fun getPawnAheadPosition(currentPosition: BoardPosition) : BoardPosition {
+    private fun getPawnAheadPosition(currentPosition: BoardPosition): BoardPosition {
         return if (this.color == ChessColor.WHITE) {
             BoardPosition.from(currentPosition.row + 1, currentPosition.column)
         } else {
