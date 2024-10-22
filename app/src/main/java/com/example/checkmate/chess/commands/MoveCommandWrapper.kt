@@ -9,7 +9,7 @@ data class MoveCommandWrapper(
     private val wrappee : ChessCommand
     ) : ChessCommand {
     override fun execute(board: ChessBoard) {
-        var figure = board.getFigureOnPosition(source)
+        val figure = board.getFigureOnPosition(source)
         board.setFigureOnPosition(destination, figure)
         board.setFigureOnPosition(source, null)
         wrappee.execute(board)

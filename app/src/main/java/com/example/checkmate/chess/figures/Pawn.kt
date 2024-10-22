@@ -17,35 +17,49 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
     ): Set<ChessCommand> {
         val availablePositions = mutableSetOf<ChessCommand>()
 
-        if(nextFieldIsEmpty(game, currentPosition)) {
-            if(nextFieldIsTransformRow(currentPosition)) {
+        if (nextFieldIsEmpty(game, currentPosition)) {
+            if (nextFieldIsTransformRow(currentPosition)) {
                 availablePositions.addAll(createTransformCommands(currentPosition))
-            }
-            else {
+            } else {
                 availablePositions.add(createNextFieldMoveCommand(currentPosition))
-                if(pawnStayOnStartedPositions(currentPosition) && secondFieldIsEmpty(game, currentPosition)) {
+                if (pawnStayOnStartedPositions(currentPosition) && secondFieldIsEmpty(
+                        game,
+                        currentPosition
+                    )
+                ) {
                     availablePositions.add(createSecondAheadMoveCommand(currentPosition))
                 }
             }
         }
 
         val leftCornerFromPawnPosition = getLeftCornerPosition(currentPosition)
-        if(isOppositeFigure(leftCornerFromPawnPosition, game)) {
-            if(nextFieldIsTransformRow(currentPosition)) {
-                //create Capture and transform command
+        if (isOppositeFigure(leftCornerFromPawnPosition, game)) {
+            if (nextFieldIsTransformRow(currentPosition)) {
+                availablePositions.addAll(
+                    createCaptureAndTransformCommands(
+                        currentPosition,
+                        leftCornerFromPawnPosition!!,
+                        game))
             } else {
                 availablePositions.add(
-                    createCaptureCommands(currentPosition, leftCornerFromPawnPosition!!, game))
+                    createCaptureCommands(currentPosition, leftCornerFromPawnPosition!!, game)
+                )
             }
         }
 
         val rightCornerFromPawnPosition = getRightCornerPosition(currentPosition)
-        if(isOppositeFigure(rightCornerFromPawnPosition, game)) {
-            if(nextFieldIsTransformRow(currentPosition)) {
-                //create Capture and transform command
+        if (isOppositeFigure(rightCornerFromPawnPosition, game)) {
+            if (nextFieldIsTransformRow(currentPosition)) {
+                availablePositions.addAll(
+                    createCaptureAndTransformCommands(
+                        currentPosition,
+                        rightCornerFromPawnPosition!!,
+                        game
+                    ))
             } else {
                 availablePositions.add(
-                    createCaptureCommands(currentPosition, rightCornerFromPawnPosition!!, game))
+                    createCaptureCommands(currentPosition, rightCornerFromPawnPosition!!, game)
+                )
             }
         }
 
@@ -155,20 +169,33 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
 
     private fun createTransformCommands(currentPosition: BoardPosition): Collection<ChessCommand> {
         val aheadPosition = getPawnAheadPosition(currentPosition)
-        val commands = HashSet<ChessCommand>()
-        commands.add(
-            MoveCommandWrapper(currentPosition, aheadPosition,
-                TransformCommand(aheadPosition, this, Queen(this.color))))
-        commands.add(
-            MoveCommandWrapper(currentPosition, aheadPosition,
-                TransformCommand(aheadPosition, this, Knight(this.color))))
-        commands.add(
-            MoveCommandWrapper(currentPosition, aheadPosition,
-                TransformCommand(aheadPosition, this, Bishop(this.color))))
-        commands.add(
-            MoveCommandWrapper(currentPosition, aheadPosition,
-                TransformCommand(aheadPosition, this, Rock(this.color))))
-        return commands
+
+        return setOf(
+            MoveCommandWrapper(
+                currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Queen(this.color))
+            ),
+            MoveCommandWrapper(
+                currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Knight(this.color))
+            ),
+            MoveCommandWrapper(
+                currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Bishop(this.color))
+            ),
+            MoveCommandWrapper(
+                currentPosition, aheadPosition,
+                TransformCommand(aheadPosition, this, Rock(this.color))
+            )
+        )
+    }
+
+    private fun createCaptureAndTransformCommands(current: BoardPosition, dest : BoardPosition, game: ChessGame): Collection<ChessCommand> {
+        return setOf(
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Queen(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Rock(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Bishop(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Knight(this.color))))
     }
 
 }
