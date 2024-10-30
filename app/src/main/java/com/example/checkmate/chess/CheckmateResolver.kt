@@ -38,7 +38,7 @@ class CheckmateResolver {
             if(checkMateSolutions.isNotEmpty()) {
                 solutionsOnOpponentsMove.add(CheckmateSolution(command, checkMateSolutions))
             } else{
-                game.undoCommand()
+                game.undoCommand() // this else probably redundant
                 break
             }
             game.undoCommand()

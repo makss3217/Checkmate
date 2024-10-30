@@ -208,10 +208,10 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
 
     private fun createCaptureAndTransformCommands(current: BoardPosition, dest : BoardPosition, game: ChessGame): Collection<ChessCommand> {
         return setOf(
-            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Queen(this.color))),
-            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Rock(this.color))),
-            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Bishop(this.color))),
-            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(current, this, Knight(this.color))))
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Queen(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Rock(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Bishop(this.color))),
+            CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Knight(this.color))))
     }
 
 }
