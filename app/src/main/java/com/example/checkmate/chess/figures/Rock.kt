@@ -4,6 +4,7 @@ import com.example.checkmate.chess.BoardPosition
 import com.example.checkmate.chess.ChessColor
 import com.example.checkmate.chess.commands.ChessCommand
 import com.example.checkmate.chess.ChessGame
+import com.example.checkmate.chess.FigureImage
 import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.MoveCommand
 
@@ -68,8 +69,14 @@ data class Rock(override val color: ChessColor) : ChessPiece {
         }
 
         return availablePositions
+    }
 
-
+    override fun getPreview(): FigureImage {
+        return if(this.color == ChessColor.BLACK) {
+            FigureImage.BLACK_ROOK
+        } else {
+            FigureImage.WHITE_ROOK
+        }
     }
 
 }

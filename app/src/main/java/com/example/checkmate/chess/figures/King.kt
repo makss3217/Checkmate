@@ -3,6 +3,7 @@ package com.example.checkmate.chess.figures
 import com.example.checkmate.chess.BoardPosition
 import com.example.checkmate.chess.ChessColor
 import com.example.checkmate.chess.ChessGame
+import com.example.checkmate.chess.FigureImage
 import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.ChessCommand
 import com.example.checkmate.chess.commands.MoveCommand
@@ -45,6 +46,14 @@ data class King(override val color: ChessColor) : ChessPiece {
             }
         } catch (ex : NoSuchElementException) {
             // Do nothing
+        }
+    }
+
+    override fun getPreview(): FigureImage {
+        return if(this.color == ChessColor.BLACK) {
+            FigureImage.BLACK_KING
+        } else {
+            FigureImage.WHITE_KING
         }
     }
 

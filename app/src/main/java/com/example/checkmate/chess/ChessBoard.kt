@@ -16,8 +16,6 @@ class ChessBoard(private val board: Array<Array<ChessPiece?>>) {
         return BoardPosition.values()
             .filter { p -> (getFigureOnPosition(p)?.color ?: false) == color }
             .toSet()
-
-
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.checkmate.chess.figures
 import com.example.checkmate.chess.BoardPosition
 import com.example.checkmate.chess.ChessColor
 import com.example.checkmate.chess.ChessGame
+import com.example.checkmate.chess.FigureImage
 import com.example.checkmate.chess.commands.CaptureCommand
 import com.example.checkmate.chess.commands.ChessCommand
 import com.example.checkmate.chess.commands.MoveCommand
@@ -212,6 +213,14 @@ data class Pawn(override val color: ChessColor) : ChessPiece {
             CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Rock(this.color))),
             CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Bishop(this.color))),
             CaptureCommand(current, dest, game.getFigureOnPosition(dest)!!, TransformCommand(dest, this, Knight(this.color))))
+    }
+
+    override fun getPreview(): FigureImage {
+        return if(this.color == ChessColor.BLACK) {
+            FigureImage.BLACK_PAWN
+        } else {
+            FigureImage.WHITE_PAWN
+        }
     }
 
 }
