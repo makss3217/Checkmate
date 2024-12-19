@@ -1,6 +1,8 @@
 package com.example.checkmate.chess
 
 import com.example.checkmate.R
+import com.example.checkmate.chess.figures.ChessPiece
+import com.example.checkmate.chess.figures.Pawn
 
 enum class FigureImage {
     WHITE_PAWN,
@@ -30,6 +32,23 @@ enum class FigureImage {
             BLACK_QUEEN -> R.drawable.black_queen
             WHITE_KING -> R.drawable.white_king
             BLACK_KING -> R.drawable.black_king
+        }
+    }
+
+    fun getFigure(): ChessPiece {
+        return when (this) {
+            WHITE_PAWN -> Pawn(ChessColor.WHITE)
+            BLACK_PAWN -> Pawn(ChessColor.BLACK)
+            WHITE_ROOK -> Pawn(ChessColor.WHITE)
+            BLACK_ROOK -> Pawn(ChessColor.BLACK)
+            WHITE_KNIGHT -> Pawn(ChessColor.WHITE)
+            BLACK_KNIGHT -> Pawn(ChessColor.BLACK)
+            WHITE_BISHOP -> Pawn(ChessColor.WHITE)
+            BLACK_BISHOP -> Pawn(ChessColor.BLACK)
+            WHITE_QUEEN -> Pawn(ChessColor.WHITE)
+            BLACK_QUEEN -> Pawn(ChessColor.BLACK)
+            WHITE_KING -> Pawn(ChessColor.WHITE)
+            BLACK_KING -> Pawn(ChessColor.BLACK)
         }
     }
 }
