@@ -1,8 +1,13 @@
 package com.example.checkmate.chess
 
 import com.example.checkmate.R
+import com.example.checkmate.chess.figures.Bishop
 import com.example.checkmate.chess.figures.ChessPiece
+import com.example.checkmate.chess.figures.King
+import com.example.checkmate.chess.figures.Knight
 import com.example.checkmate.chess.figures.Pawn
+import com.example.checkmate.chess.figures.Queen
+import com.example.checkmate.chess.figures.Rock
 
 enum class FigureImage {
     WHITE_PAWN,
@@ -39,16 +44,16 @@ enum class FigureImage {
         return when (this) {
             WHITE_PAWN -> Pawn(ChessColor.WHITE)
             BLACK_PAWN -> Pawn(ChessColor.BLACK)
-            WHITE_ROOK -> Pawn(ChessColor.WHITE)
-            BLACK_ROOK -> Pawn(ChessColor.BLACK)
-            WHITE_KNIGHT -> Pawn(ChessColor.WHITE)
-            BLACK_KNIGHT -> Pawn(ChessColor.BLACK)
-            WHITE_BISHOP -> Pawn(ChessColor.WHITE)
-            BLACK_BISHOP -> Pawn(ChessColor.BLACK)
-            WHITE_QUEEN -> Pawn(ChessColor.WHITE)
-            BLACK_QUEEN -> Pawn(ChessColor.BLACK)
-            WHITE_KING -> Pawn(ChessColor.WHITE)
-            BLACK_KING -> Pawn(ChessColor.BLACK)
+            WHITE_ROOK -> Rock(ChessColor.WHITE)
+            BLACK_ROOK -> Rock(ChessColor.BLACK)
+            WHITE_KNIGHT -> Knight(ChessColor.WHITE)
+            BLACK_KNIGHT -> Knight(ChessColor.BLACK)
+            WHITE_BISHOP -> Bishop(ChessColor.WHITE)
+            BLACK_BISHOP -> Bishop(ChessColor.BLACK)
+            WHITE_QUEEN -> Queen(ChessColor.WHITE)
+            BLACK_QUEEN -> Queen(ChessColor.BLACK)
+            WHITE_KING -> King(ChessColor.WHITE)
+            BLACK_KING -> King(ChessColor.BLACK)
         }
     }
 }

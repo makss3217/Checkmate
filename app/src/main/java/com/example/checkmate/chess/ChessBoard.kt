@@ -18,4 +18,19 @@ class ChessBoard(private val board: Array<Array<ChessPiece?>>) {
             .toSet()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ChessBoard) return false
+
+        if (board.size != other.board.size) return false
+        for (i in board.indices) {
+            if (!board[i].contentEquals(other.board[i])) return false
+        }
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return board.contentDeepHashCode()
+    }
+
 }
